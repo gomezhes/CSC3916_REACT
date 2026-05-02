@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { fetchMovie, submitReview } from '../actions/movieActions';
 import { useDispatch, useSelector } from 'react-redux';
-import { Card, ListGroup, ListGroupItem, Image } from 'react-bootstrap';
+import { Card, ListGroup, ListGroupItem, Image, Form, Button } from 'react-bootstrap';
 import { BsStarFill } from 'react-icons/bs';
-import { useParams } from 'react-router-dom'; // Import useParams
+import { useParams } from 'react-router-dom';
 
 const MovieDetail = () => {
   const dispatch = useDispatch();
-  const { movieId } = useParams(); // Get movieId from URL parameters
+  const { movieId } = useParams();
   const selectedMovie = useSelector(state => state.movie.selectedMovie);
-  const loading = useSelector(state => state.movie.loading); // Assuming you have a loading state in your reducer
-  const error = useSelector(state => state.movie.error); // Assuming you have an error state in your reducer
+  const loading = useSelector(state => state.movie.loading);
+  const error = useSelector(state => state.movie.error);
 
   const [reviewText, setReviewText] = useState('');
-  const [rating, setRating ] = useState(5);
+  const [rating, setRating] = useState(5);
 
   useEffect(() => {
     dispatch(fetchMovie(movieId));
@@ -21,7 +21,7 @@ const MovieDetail = () => {
 
   const handleReviewSubmit = (e) => {
     e.preventDefault();
-    dispatch(submitReview(movieId, {review: reviewText, rating: parseInt(rating)}))
+    dispatch(submitReview(movieId, { review: reviewText, rating: parseInt(rating) }));
     setReviewText('');
     setRating(5);
   };
@@ -41,26 +41,26 @@ const MovieDetail = () => {
 
     return (
       <Card className="bg-dark text-dark p-4 rounded">
-        <Card.Header>Movie Detail</Card.Header>
+        <Card.Header className="text-light">Movie Detail</Card.Header>
         <Card.Body>
           <Image className="image" src={selectedMovie.imageUrl} thumbnail />
         </Card.Body>
         <ListGroup>
-          <ListGroupItem>{selectedMovie.title}</ListGroupItem>
+          <ListGroupItem><h3>{selectedMovie.title}</h3></ListGroupItem>
           <ListGroupItem>
             {selectedMovie.actors.map((actor, i) => (
               <p key={i}>
-                <b>{actor.actorName}</b> {actor.characterName}
+                <b>{actor.actorName}</b> as {actor.characterName}
               </p>
             ))}
           </ListGroupItem>
           <ListGroupItem>
             <h4>
-              <BsStarFill /> {selectedMovie.avgRating ? selectedMovie.avgRating.toFixed(1) : 'NO RATINGS YET'}
+              <BsStarFill className="text-warning" /> {selectedMovie.avgRating ? selectedMovie.avgRating.toFixed(1) : 'No Ratings Yet'}
             </h4>
           </ListGroupItem>
         </ListGroup>
-        
+
         <Card.Body className="card-body bg-light mt-3 rounded">
           <h5 className="mb-3">User Reviews</h5>
           {selectedMovie.reviews && selectedMovie.reviews.length > 0 ? (
@@ -75,6 +75,7 @@ const MovieDetail = () => {
             <p>No reviews yet. Be the first to review!</p>
           )}
         </Card.Body>
+
         <Card.Body className="bg-light mt-3 rounded">
           <h5>Leave a Review</h5>
           <Form onSubmit={handleReviewSubmit}>
@@ -116,6 +117,5 @@ const MovieDetail = () => {
 
   return <DetailInfo />;
 };
-
 
 export default MovieDetail;
