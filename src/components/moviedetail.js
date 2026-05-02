@@ -48,7 +48,7 @@ const MovieDetail = () => {
         <ListGroup>
           <ListGroupItem><h3>{selectedMovie.title}</h3></ListGroupItem>
           <ListGroupItem>
-            {selectedMovie.actors.map((actor, i) => (
+            {selectedMovie.actors && Array.isArray(selectedMovie.actors) && selectedMovie.actors.map((actor, i) => (
               <p key={i}>
                 <b>{actor.actorName}</b> as {actor.characterName}
               </p>
