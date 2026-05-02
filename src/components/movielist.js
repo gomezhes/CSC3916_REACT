@@ -81,7 +81,7 @@ function MovieList() {
                                     <Col md={9}>
                                         <h5>Cast</h5>
                                         <ul>
-                                            {movie.actors && movie.actors.map((actor, i) => (
+                                            {movie.actors && Array.isArray(movie.actors) && movie.actors.map((actor, i) => (
                                                 <li key={i}>
                                                     <b>{actor.actorName}</b> as {actor.characterName}
                                                 </li>
