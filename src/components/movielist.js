@@ -31,7 +31,7 @@ function MovieList() {
         dispatch(setMovie(movie));
     };
 
-    if (!memoizedMovies) {
+    if (!memoizedMovies || !Array.isArray(memoizedMovies)) {
         return <div>Loading....</div>;
     }
 
